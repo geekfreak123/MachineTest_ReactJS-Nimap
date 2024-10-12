@@ -1,9 +1,177 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Roboto:wght@400;500;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.container {
-    max-width: 1200px;
+/* Custom Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #141414;
+    color: #fff;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Navbar Styles */
+nav {
+    background-color: #141414;
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    flex-wrap: wrap;
+}
+
+nav a:hover {
+    color: #E50914;
+    transition: color 0.3s ease-in-out;
+    text-decoration: underline;
+}
+
+/* Input Styles */
+input[type="text"] {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    width: 200px;
+    font-family: 'Roboto', sans-serif;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border: 1px solid #E50914;
+}
+
+button {
+    background-color: #E50914;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #ff0a16;
+}
+
+/* Smooth transition for hover effects */
+button,
+a,
+input[type="text"],
+.pagination button {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Pagination */
+.pagination button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+}
+
+.pagination button:hover {
+    background-color: #E50914;
+    color: white;
+}
+
+/* Movie Card Styling */
+.card {
+    background-color: #1c1c1c;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    height: 350px;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    border-bottom: 3px solid #E50914;
+}
+
+.cast-card {
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.cast-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+/* Text styling */
+.cast-card p {
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+}
+
+/* Hover effect for the card */
+.cast-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Grid */
+.grid-cols-1 {
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+    .grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 768px) {
+    .grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid-cols-4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    nav .flex {
+        width: 100%;
+        justify-content: space-evenly;
+        margin-bottom: 10px;
+    }
+
+    nav a {
+        padding: 10px 0;
+        font-size: 16px;
+    }
+
+    .cast-card img {
+        height: 150px; 
+    }
 }

@@ -5,12 +5,7 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-        fontFamily: {
-          headline: ['Montserrat', 'sans-serif'],
-          body: ['Roboto', 'sans-serif'],
-      },
-    },
+    extend: {},
   },
   plugins: [],
 }

@@ -1,33 +1,33 @@
-// src/pages/HomePage.js
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getPopularMovies } from "../redux/movieSlice";
+import  { useEffect, useState } from "react";
+import { fetchPopularMovies } from "../utils/api";
 import MovieList from "../components/MovieList";
 import Pagination from "../components/Pagination";
 
 const HomePage = () => {
-  const dispatch = useDispatch();
-  const { popularMovies, loading } = useSelector((state) => state.movies);
+  const [movies, setMovies] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    dispatch(getPopularMovies());
-  }, [dispatch]);
+    fetchPopularMovies(currentPage).then((response) => {
+      setMovies(response.data.results);
+      setTotalPages(response.data.total_pages);
+    });
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <>
-          <h2 className="text-3xl font-bold mb-4">Popular Movies</h2>
-          <MovieList movies={popularMovies} />
-          <Pagination
-            currentPage={1}
-            totalPages={10}
-            onPageChange={(page) => dispatch(getPopularMovies(page))}
-          />
-        </>
-      )}
+      <h2 className="text-white text-2xl p-4">Popular Movies</h2>
+      <MovieList movies={movies} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

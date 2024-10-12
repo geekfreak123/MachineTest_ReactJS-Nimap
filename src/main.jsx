@@ -1,12 +1,12 @@
-import { createRoot } from "react-dom/client";
-import { Provider } from "react-redux";
-import { store } from "./redux/store";
-import App from "./App.jsx";
-import "./index.css";
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const root = createRoot(document.getElementById("root"));
-root.render(
-  <Provider store={store}>
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
     <App />
-  </Provider>
-);
+  </StrictMode>,
+)

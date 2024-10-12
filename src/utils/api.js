@@ -1,27 +1,17 @@
-// src/utils/api.js
+
 import axios from 'axios';
-import { API_BASE_URL, API_KEY } from './constants';
 
-export const fetchPopularMovies = (page = 1) => {
-  return axios.get(`${API_BASE_URL}/movie/popular?api_key=${API_KEY}&page=${page}`);
-};
+const movieApi = axios.create({
+  baseURL: 'https://api.themoviedb.org/3',
+  params: {
+    api_key: 'c45a857c193f6302f2b5061c3b85e743',
+    language: 'en-US'
+  }
+});
 
-export const fetchTopRatedMovies = (page = 1) => {
-  return axios.get(`${API_BASE_URL}/movie/top_rated?api_key=${API_KEY}&page=${page}`);
-};
-
-export const fetchUpcomingMovies = (page = 1) => {
-  return axios.get(`${API_BASE_URL}/movie/upcoming?api_key=${API_KEY}&page=${page}`);
-};
-
-export const fetchMovieById = (id) => {
-  return axios.get(`${API_BASE_URL}/movie/${id}?api_key=${API_KEY}&language=en-US`);
-};
-
-export const fetchMovieCredits = (id) => {
-  return axios.get(`${API_BASE_URL}/movie/${id}/credits?api_key=${API_KEY}&language=en-US`);
-};
-
-export const fetchSearchResults = (query) => {
-  return axios.get(`${API_BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}`);
-};
+export const fetchPopularMovies = (page = 1) => movieApi.get(`/movie/popular?page=${page}`);
+export const fetchTopRatedMovies = (page = 1) => movieApi.get(`/movie/top_rated?page=${page}`);
+export const fetchUpcomingMovies = (page = 1) => movieApi.get(`/movie/upcoming?page=${page}`);
+export const fetchMovieDetails = (id) => movieApi.get(`/movie/${id}`);
+export const fetchMovieCredits = (id) => movieApi.get(`/movie/${id}/credits`);
+export const searchMovies = (query, page = 1) => movieApi.get(`/search/movie`, { params: { query, page } });

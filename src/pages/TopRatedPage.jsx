@@ -1,29 +1,34 @@
-// src/pages/TopRatedPage.js
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTopRatedMovies } from '../redux/movieSlice';
-import MovieList from '../components/MovieList';
-import Pagination from '../components/Pagination';
+
+import  { useEffect, useState } from "react";
+import { fetchTopRatedMovies } from "../utils/api";
+import MovieList from "../components/MovieList";
+import Pagination from "../components/Pagination";
 
 const TopRatedPage = () => {
-  const dispatch = useDispatch();
-  const { topRatedMovies, loading } = useSelector((state) => state.movies);
+  const [movies, setMovies] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    dispatch(getTopRatedMovies());
-  }, [dispatch]);
+    fetchTopRatedMovies(currentPage).then((response) => {
+      setMovies(response.data.results);
+      setTotalPages(response.data.total_pages);
+    });
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <>
-          <h2 className="text-3xl font-bold mb-4">Top Rated Movies</h2>
-          <MovieList movies={topRatedMovies} />
-          <Pagination currentPage={1} totalPages={10} onPageChange={(page) => dispatch(getTopRatedMovies(page))} />
-        </>
-      )}
+      <h2 className="text-white text-2xl p-4">Top Rated Movies</h2>
+      <MovieList movies={movies} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

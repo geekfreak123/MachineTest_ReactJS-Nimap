@@ -1,20 +1,21 @@
-// src/components/Pagination.js
-import React from "react";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const pages = [...Array(totalPages).keys()].map((num) => num + 1);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.min(10, totalPages); i++) {
+    pageNumbers.push(i);
+  }
 
   return (
-    <div className="flex justify-center mt-8">
-      {pages.map((page) => (
+    <div className="flex justify-center items-center space-x-2 mt-4">
+      {pageNumbers.map((number) => (
         <button
-          key={page}
-          className={`mx-1 px-4 py-2 ${
-            page === currentPage ? "bg-blue-500 text-white" : "bg-gray-300"
-          }`}
-          onClick={() => onPageChange(page)}
+          key={number}
+          onClick={() => onPageChange(number)}
+          className={`px-4 py-2 rounded-md transition-all ${
+            currentPage === number ? "bg-red-600 text-white" : "bg-gray-600"
+          } hover:bg-red-500 hover:text-white`}
         >
-          {page}
+          {number}
         </button>
       ))}
     </div>
