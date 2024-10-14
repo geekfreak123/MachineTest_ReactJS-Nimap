@@ -1,51 +1,56 @@
 import { useState, useEffect } from "react";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const [visibleRange, setVisibleRange] = useState({ start: 1, end: 5 });
+  const [visiblePages, setVisiblePages] = useState([]);
 
   useEffect(() => {
-    if (totalPages <= 6) {
-      setVisibleRange({ start: 1, end: totalPages });
-    } else {
-      setVisibleRange({ start: 1, end: 5 });
-    }
-  }, [totalPages]);
+    setVisiblePages(getVisiblePages(currentPage, totalPages));
+  }, [currentPage, totalPages]);
 
-
-  const getVisiblePages = () => {
+  const getVisiblePages = (current, total) => {
     const pages = [];
-    const { start, end } = visibleRange;
-    if (start > 1) {
-      pages.push("..."); 
+
+    if (total <= 5) {
+      return [...Array(total).keys()].map((i) => i + 1); 
     }
-    for (let i = start; i <= Math.min(end, totalPages); i++) {
-      pages.push(i);
+
+    if (current === 1) {
+      pages.push(1, 2, 3, 4, 5, "...");
+    } else if (current === total) {
+      pages.push("...", total - 4, total - 3, total - 2, total - 1, total);
+    } else {
+      pages.push("...");
+      for (let i = current - 1; i <= current + 1; i++) {
+        if (i > 0 && i <= total) pages.push(i);
+      }
+      pages.push("...");
     }
-    if (end < totalPages) {
-      pages.push("..."); 
-    }
+
     return pages;
   };
 
-  const handleEllipsisClick = (position) => {
-    const { start, end } = visibleRange;
-
-    if (position === "next" && end < totalPages) {
-      setVisibleRange({ start: start + 1, end: end + 1 });
-    } else if (position === "prev" && start > 1) {
-      setVisibleRange({ start: start - 1, end: end - 1 });
+  const handleEllipsisClick = (direction) => {
+    if (direction === "next") {
+      const nextPage = Math.min(currentPage + 1, totalPages);
+      onPageChange(nextPage);
+      setVisiblePages(getVisiblePages(nextPage, totalPages));
+    } else if (direction === "prev") {
+      const prevPage = Math.max(currentPage - 1, 1);
+      onPageChange(prevPage);
+      setVisiblePages(getVisiblePages(prevPage, totalPages));
     }
   };
 
   const handlePageClick = (page) => {
     if (page !== "...") {
       onPageChange(page);
+      setVisiblePages(getVisiblePages(page, totalPages));
     }
   };
 
   return (
     <div className="flex justify-center items-center space-x-2 mt-4">
-      {getVisiblePages().map((number, index) => (
+      {visiblePages.map((number, index) => (
         <button
           key={index}
           onClick={() =>
